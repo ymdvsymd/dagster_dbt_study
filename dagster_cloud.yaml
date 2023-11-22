@@ -1,4 +1,4 @@
 locations:
-  - location_name: dagster_dbt_study
+  - location_name: jaffle_shop
     code_source:
-      package_name: dagster_dbt_study
+      package_name: jaffle_shop
