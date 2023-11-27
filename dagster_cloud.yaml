@@ -1,5 +1,5 @@
 locations:
   - location_name: dagster_dbt_study
     code_source:
-      python_file: definitions.py
+      package_name: jaffle_dagster
     working_directory: ./jaffle_dagster
