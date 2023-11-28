@@ -1,6 +1,0 @@
-#!/bin/bash
-
-poetry build
-tar zxvf ./dist/*.tar.gz -C ./dist  
-cp ./dist/*/setup.py ./setup.py
-rm -rf ./dist/*/
