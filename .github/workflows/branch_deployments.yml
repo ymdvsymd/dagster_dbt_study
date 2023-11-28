@@ -10,7 +10,7 @@ concurrency:
 env:
   DAGSTER_CLOUD_URL: "http://novasell.dagster.cloud"
   DAGSTER_CLOUD_API_TOKEN: ${{ secrets.DAGSTER_CLOUD_API_TOKEN }}
-  ENABLE_FAST_DEPLOYS: 'false'
+  ENABLE_FAST_DEPLOYS: 'true'
   PYTHON_VERSION: '3.11.5'
   DAGSTER_CLOUD_FILE: 'dagster_cloud.yaml'
 
@@ -26,9 +26,6 @@ jobs:
         id: prerun
         uses: dagster-io/dagster-cloud-action/actions/utils/prerun@v0.1
 
-      - name: Create requirements.txt
-        uses: divideprojects/poetry-export-requirements-action@v1
-
       - name: Launch Docker Deploy
         if: steps.prerun.outputs.result == 'docker-deploy'
         id: parse-workspace
@@ -42,7 +39,11 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           path: project-repo
-          
+
+      - name: Create requirements.txt
+        if: steps.prerun.outputs.result == 'pex-deploy'
+        uses: divideprojects/poetry-export-requirements-action@v1
+
       - name: Python Executable Deploy
         if: steps.prerun.outputs.result == 'pex-deploy'
         uses: dagster-io/dagster-cloud-action/actions/build_deploy_python_executable@v0.1
