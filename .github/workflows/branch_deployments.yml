@@ -42,7 +42,10 @@ jobs:
 
       - name: Create requirements.txt
         if: steps.prerun.outputs.result == 'pex-deploy'
-        uses: divideprojects/poetry-export-requirements-action@v1
+        working-directory: project-repo
+        run: |
+          pip install poetry
+          poetry export -f requirements.txt --output requirements.txt
 
       - name: Python Executable Deploy
         if: steps.prerun.outputs.result == 'pex-deploy'
@@ -71,10 +74,9 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: Create requirements.txt
-        uses: divideprojects/poetry-export-requirements-action@v1
-        # with:
-        #   without-hashes: false
-        #   outfile-name: requirements.txt
+        run: |
+          pip install poetry
+          poetry export -f requirements.txt --output requirements.txt
 
       - name: Build and deploy to Dagster Cloud serverless
         uses: dagster-io/dagster-cloud-action/actions/serverless_branch_deploy@v0.1
