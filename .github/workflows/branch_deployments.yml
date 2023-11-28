@@ -26,6 +26,9 @@ jobs:
         id: prerun
         uses: dagster-io/dagster-cloud-action/actions/utils/prerun@v0.1
 
+      - name: Create requirements.txt
+        uses: divideprojects/poetry-export-requirements-action@v1
+
       - name: Launch Docker Deploy
         if: steps.prerun.outputs.result == 'docker-deploy'
         id: parse-workspace
@@ -68,6 +71,9 @@ jobs:
 
       - name: Create requirements.txt
         uses: divideprojects/poetry-export-requirements-action@v1
+        # with:
+        #   without-hashes: false
+        #   outfile-name: requirements.txt
 
       - name: Build and deploy to Dagster Cloud serverless
         uses: dagster-io/dagster-cloud-action/actions/serverless_branch_deploy@v0.1
