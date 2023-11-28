@@ -66,8 +66,8 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      # - name: Create requirements.txt
-      #   uses: divideprojects/poetry-export-requirements-action@v1
+      - name: Create requirements.txt
+        uses: divideprojects/poetry-export-requirements-action@v1
 
       - name: Build and deploy to Dagster Cloud serverless
         uses: dagster-io/dagster-cloud-action/actions/serverless_branch_deploy@v0.1
