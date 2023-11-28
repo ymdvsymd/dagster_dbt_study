@@ -2,4 +2,3 @@ locations:
   - location_name: dagster_dbt_study
     code_source:
       package_name: jaffle_dagster
-    working_directory: ./jaffle_dagster

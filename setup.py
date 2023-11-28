@@ -10,6 +10,8 @@ setup(
         "dagster-dbt",
         "dbt-core>=1.4.0",
         "dbt-duckdb",
+        "pandas",
+        "plotly",
     ],
     extras_require={
         "dev": [
