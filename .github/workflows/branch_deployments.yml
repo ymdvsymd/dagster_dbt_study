@@ -76,7 +76,7 @@ jobs:
       - name: Create requirements.txt
         run: |
           pip install poetry
-          poetry export -f requirements.txt --output requirements.txt
+          poetry export --without-hashes --without dev --without-urls -f requirements.txt -o requirements.txt
 
       - name: Build and deploy to Dagster Cloud serverless
         uses: dagster-io/dagster-cloud-action/actions/serverless_branch_deploy@v0.1
