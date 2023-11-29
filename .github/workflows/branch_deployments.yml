@@ -40,13 +40,6 @@ jobs:
           ref: ${{ github.head_ref }}
           path: project-repo
 
-      - name: Create requirements.txt
-        if: steps.prerun.outputs.result == 'pex-deploy'
-        working-directory: project-repo
-        run: |
-          pip install poetry
-          poetry export -f requirements.txt --output requirements.txt
-
       - name: Python Executable Deploy
         if: steps.prerun.outputs.result == 'pex-deploy'
         uses: dagster-io/dagster-cloud-action/actions/build_deploy_python_executable@v0.1
@@ -78,9 +71,6 @@ jobs:
           pip install poetry
           poetry export --without-hashes --without dev --without-urls -f requirements.txt -o requirements.txt
 
-      - name: ls
-        run: ls
-
       - name: Build and deploy to Dagster Cloud serverless
         uses: dagster-io/dagster-cloud-action/actions/serverless_branch_deploy@v0.1
         with:
@@ -90,5 +80,6 @@ jobs:
           # Uncomment to pass through Github Action secrets as a JSON string of key-value pairs
           # env_vars: ${{ toJson(secrets) }}
           organization_id: ${{ secrets.ORGANIZATION_ID }}
+          checkout_repo: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
