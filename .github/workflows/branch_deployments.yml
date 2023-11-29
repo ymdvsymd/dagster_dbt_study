@@ -11,7 +11,7 @@ env:
   DAGSTER_CLOUD_URL: "http://novasell.dagster.cloud"
   DAGSTER_CLOUD_API_TOKEN: ${{ secrets.DAGSTER_CLOUD_API_TOKEN }}
   ENABLE_FAST_DEPLOYS: 'false'
-  PYTHON_VERSION: '3.11'
+  PYTHON_VERSION: '3.11.5'
   DAGSTER_CLOUD_FILE: 'dagster_cloud.yaml'
 
 jobs:
@@ -39,7 +39,7 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           path: project-repo
-          
+
       - name: Python Executable Deploy
         if: steps.prerun.outputs.result == 'pex-deploy'
         uses: dagster-io/dagster-cloud-action/actions/build_deploy_python_executable@v0.1
@@ -59,11 +59,18 @@ jobs:
       fail-fast: false
       matrix:
         location: ${{ fromJSON(needs.dagster_cloud_default_deploy.outputs.build_info) }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}
+
+      - name: Create requirements.txt
+        run: |
+          pip install poetry
+          poetry export --without-hashes --without dev --without-urls -f requirements.txt -o requirements.txt
+
       - name: Build and deploy to Dagster Cloud serverless
         uses: dagster-io/dagster-cloud-action/actions/serverless_branch_deploy@v0.1
         with:
@@ -73,6 +80,6 @@ jobs:
           # Uncomment to pass through Github Action secrets as a JSON string of key-value pairs
           # env_vars: ${{ toJson(secrets) }}
           organization_id: ${{ secrets.ORGANIZATION_ID }}
+          checkout_repo: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
