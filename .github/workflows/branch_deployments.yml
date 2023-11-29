@@ -2,7 +2,7 @@ name: Serverless Branch Deployments
 on:
   pull_request:
     types: [opened, synchronize, reopened, closed]
-    
+
 concurrency:
   # Cancel in-progress deploys to same branch
   group: ${{ github.ref }}/branch_deployments
@@ -10,9 +10,9 @@ concurrency:
 env:
   DAGSTER_CLOUD_URL: "http://novasell.dagster.cloud"
   DAGSTER_CLOUD_API_TOKEN: ${{ secrets.DAGSTER_CLOUD_API_TOKEN }}
-  ENABLE_FAST_DEPLOYS: 'false'
-  PYTHON_VERSION: '3.11.5'
-  DAGSTER_CLOUD_FILE: 'dagster_cloud.yaml'
+  ENABLE_FAST_DEPLOYS: "false"
+  PYTHON_VERSION: "3.11.5"
+  DAGSTER_CLOUD_FILE: "dagster_cloud.yaml"
 
 jobs:
   dagster_cloud_default_deploy:
@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-20.04
     outputs:
       build_info: ${{ steps.parse-workspace.outputs.build_info }}
-    
+
     steps:
       - name: Prerun Checks
         id: prerun
